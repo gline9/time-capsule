@@ -1,6 +1,5 @@
 package com.gline9.timecapsule.models;
 
-
 public class Key
 {
 
