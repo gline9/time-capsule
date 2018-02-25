@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.bson.Document;
+
 public abstract class Model<M extends Model<M>>
 {
 
@@ -20,6 +22,22 @@ public abstract class Model<M extends Model<M>>
     public <V> V get(Field<M, V> field)
     {
         return (V) data.get(field);
+    }
+    
+    public Document toDocument()
+    {
+        Document ret = new Document();
+        
+        for (Field<M, ?> field : getFields())
+        {
+            Object value = data.get(field);
+            Object transformed = CodecRegistry.encode(field, value);
+            if (null != transformed)
+            {
+                ret.append(field.getKey(), transformed);
+            }
+        }
+        return ret;
     }
 
     public String toString()

@@ -9,11 +9,12 @@ import com.gline9.timecapsule.models.Model;
 public class Setting<V> extends Model<Setting<?>>
 {
 
-    private static final Field<Setting<?>, String> KEY = new Field<>(Key.KEY);
-    private final Field<Setting<?>, V> VALUE = new Field<>(Key.VALUE);
+    private static final Field<Setting<?>, String> KEY = new Field<>(String.class, Key.KEY);
+    private final Field<Setting<?>, V> VALUE;
 
-    public Setting(String key)
+    public Setting(String key, Class<V> clazz)
     {
+        VALUE = new Field<Setting<?>, V>(clazz, Key.VALUE);
         set(KEY, key);
     }
 
