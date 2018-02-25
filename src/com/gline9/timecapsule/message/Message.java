@@ -1,33 +1,20 @@
 package com.gline9.timecapsule.message;
 
 import java.time.Instant;
+import java.util.Set;
 
-public class Message
+import com.gline9.timecapsule.models.Field;
+import com.gline9.timecapsule.models.Key;
+import com.gline9.timecapsule.models.Model;
+
+public class Message extends Model<Message>
 {
     
-    // TODO temporary until changes to model structure
-    private String message = null;
-    private Instant createdTime = null;
+    public static final Field<Message, String> MESSAGE = new Field<>(Key.MESSAGE);
+    public static final Field<Message, Instant> CREATED_TIME = new Field<>(Key.CREATED_TIME);
     
-    public Message() {}
-    
-    public String getMessage()
+    public Set<Field<Message, ?>> getFields()
     {
-        return message;
-    }
-    
-    public void setMessage(String value)
-    {
-        message = value;
-    }
-    
-    public Instant getCreatedTime()
-    {
-        return createdTime;
-    }
-    
-    public void setCreeatedTime(Instant value)
-    {
-        createdTime = value;
+        return Set.of(MESSAGE, CREATED_TIME);
     }
 }
