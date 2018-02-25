@@ -1,17 +1,15 @@
 package com.gline9.timecapsule;
 
-import java.time.Instant;
-
-import com.gline9.timecapsule.message.Message;
+import com.gline9.timecapsule.settings.Setting;
 
 public class ProgramStart
 {
 
     public static void main(String[] args)
     {
-        Message m = new Message();
-        m.set(Message.MESSAGE, "hello");
-        m.set(Message.CREATED_TIME, Instant.now());
-        System.out.println(m);
+        Setting<Integer> intSetting = new Setting<>("int");
+        intSetting.setValue(5);
+        System.out.println(intSetting);
+        System.out.println(intSetting.getValue());
     }
 }
