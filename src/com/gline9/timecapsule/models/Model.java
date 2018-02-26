@@ -40,6 +40,18 @@ public abstract class Model<M extends Model<M>>
         return new Document(key, transformed);
     }
     
+    public Document toUpdateDocument()
+    {
+        Document ret = toDocument();
+        
+        if (ret.containsKey(Key.MONGO_ID))
+        {
+            ret.remove(Key.MONGO_ID);
+        }
+        
+        return new Document("$set", ret);
+    }
+    
     public Document toDocument()
     {
         Document ret = new Document();

@@ -5,9 +5,8 @@ import java.util.function.Supplier;
 import org.bson.Document;
 
 import com.gline9.timecapsule.models.Model;
-import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
 
 public class Collection<M extends Model<M>>
 {
@@ -19,34 +18,13 @@ public class Collection<M extends Model<M>>
         this.constructor = constructor;
     }
 
-    // TODO make configurable
-    private static MongoClient client = null;
-    private static MongoClient getClient()
-    {
-        if (null == client)
-        {
-            client = new MongoClient("localhost", 27017);
-        }
-        return client;
-    }
-    
-    private static MongoDatabase database = null;
-    private static MongoDatabase getDatabase()
-    {
-        if (null == database)
-        {
-            database = getClient().getDatabase("timecapsule");
-        }
-        
-        return database;
-    }
     
     private MongoCollection<Document> collection = null;
     private MongoCollection<Document> get()
     {
         if (null == collection)
         {
-            collection = getDatabase().getCollection(collectionName);
+            collection = Database.getDatabase().getCollection(collectionName);
         }
         
         return collection;
@@ -60,6 +38,26 @@ public class Collection<M extends Model<M>>
     public M find(M value)
     {
         return safeParse(get().find(value.toMatchDocument()).first());
+    }
+    
+    public void delete(M value)
+    {
+        get().deleteOne(value.toMatchDocument());
+    }
+    
+    public void update(M value)
+    {
+        update(value, false);
+    }
+    
+    public void upsert(M value)
+    {
+        update(value, true);
+    }
+    
+    public void update(M value, boolean upsert)
+    {
+        get().updateOne(value.toMatchDocument(), value.toUpdateDocument(), new UpdateOptions().upsert(upsert));
     }
     
     public M safeParse(Document doc)

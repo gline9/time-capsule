@@ -22,5 +22,8 @@ public class ProgramStart
         query.set(Message.ID, id);
         Message found = Collections.MESSAGES.find(query);
         System.out.println(found);
+        found.set(Message.MESSAGE, "update");
+        Collections.MESSAGES.update(found);
+        System.out.println(Collections.MESSAGES.find(query));
     }
 }
