@@ -3,11 +3,19 @@ package com.gline9.timecapsule.models;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.bson.Document;
 
 public abstract class Model<M extends Model<M>>
 {
+    
+    private final Supplier<? extends M> constructor;
+    
+    public Model(Supplier<? extends M> constructor)
+    {
+        this.constructor = constructor;
+    }
 
     public final Map<Field<M, ?>, Object> data = new HashMap<>();
 
@@ -39,6 +47,25 @@ public abstract class Model<M extends Model<M>>
         }
         return ret;
     }
+    
+    public M parse(Document doc)
+    {
+        M res = this.constructor.get();
+
+        for (Field<M, ?> field : getFields())
+        {
+            if (!doc.containsKey(field.getKey()))
+            {
+                continue;
+            }
+            
+            Object value = doc.get(field.getKey());
+            data.put(field, CodecRegistry.decode(field, value));
+        }
+        
+        return res;
+    }
+    
 
     public String toString()
     {

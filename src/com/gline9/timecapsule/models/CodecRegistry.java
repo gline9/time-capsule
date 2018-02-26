@@ -19,11 +19,11 @@ public class CodecRegistry
     {
         return (Codec<V>) registry.get(clazz);
     }
-    
+
     public static <V> Object encode(Field<?, V> field, Object value)
     {
         Codec<V> codec = getCodec(field.getValueClass());
-        if (null == codec)
+        if (null == codec || null == value)
         {
             return value;
         }
@@ -31,7 +31,19 @@ public class CodecRegistry
         Object encoded = codec.encode((V) value);
         return encoded;
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public static <V> V decode(Field<?, V> field, Object value)
+    {
+        Codec<V> codec = getCodec(field.getValueClass());
+        if (null == codec)
+        {
+            return (V) value;
+        }
+        V decoded = codec.decode(value);
+        return decoded;
+    }
+
     static
     {
         CodecRegistry.register(Instant.class, new InstantCodec());

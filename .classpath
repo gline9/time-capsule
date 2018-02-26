@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="dependencies/bson-3.6.3.jar"/>
 	<classpathentry kind="lib" path="dependencies/mongodb-driver-core-3.6.3.jar"/>
 	<classpathentry kind="lib" path="dependencies/slf4j-api-1.7.6.jar"/>
+	<classpathentry kind="lib" path="dependencies/mongodb-driver-3.6.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
