@@ -1,5 +1,7 @@
 package com.gline9.timecapsule.database;
 
+import java.util.function.Supplier;
+
 import org.bson.Document;
 
 import com.gline9.timecapsule.models.Model;
@@ -10,11 +12,11 @@ import com.mongodb.client.MongoDatabase;
 public class Collection<M extends Model<M>>
 {
     private final String collectionName;
-    private final M schema;
-    public Collection(String name, M schema)
+    private final Supplier<M> constructor;
+    public Collection(String name, Supplier<M> constructor)
     {
         collectionName = name;
-        this.schema = schema;
+        this.constructor = constructor;
     }
 
     // TODO make configurable
@@ -53,6 +55,22 @@ public class Collection<M extends Model<M>>
     public void insert(M value)
     {
         get().insertOne(value.toDocument());
+    }
+    
+    public M find(M value)
+    {
+        return safeParse(get().find(value.toMatchDocument()).first());
+    }
+    
+    public M safeParse(Document doc)
+    {
+        if (null == doc)
+        {
+            return null;
+        }
+        M ret = constructor.get();
+        ret.populate(doc);
+        return ret;
     }
     
     

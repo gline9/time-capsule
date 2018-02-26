@@ -7,5 +7,5 @@ public final class Collections
 
     private Collections() {}
     
-    public static final Collection<Message> MESSAGES = new Collection<>("messages", new Message());
+    public static final Collection<Message> MESSAGES = new Collection<>("messages", Message::new);
 }

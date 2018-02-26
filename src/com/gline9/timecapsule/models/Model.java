@@ -10,16 +10,11 @@ import org.bson.Document;
 public abstract class Model<M extends Model<M>>
 {
     
-    private final Supplier<? extends M> constructor;
-    
-    public Model(Supplier<? extends M> constructor)
-    {
-        this.constructor = constructor;
-    }
-
     public final Map<Field<M, ?>, Object> data = new HashMap<>();
 
     public abstract Set<Field<M, ?>> getFields();
+    
+    public abstract Field<M, ?> getIDField();
 
     public <V> void set(Field<M, V> field, V value)
     {
@@ -32,38 +27,59 @@ public abstract class Model<M extends Model<M>>
         return (V) data.get(field);
     }
     
+    public Document toMatchDocument()
+    {
+        Field<M, ?> id = getIDField();
+        String key = Key.MONGO_ID;
+        Object value = data.get(id);
+        Object transformed = CodecRegistry.encode(id, value);
+        if (null == transformed)
+        {
+            throw new NullPointerException("ID of a model can't be null if a find is being performed");
+        }
+        return new Document(key, transformed);
+    }
+    
     public Document toDocument()
     {
         Document ret = new Document();
         
         for (Field<M, ?> field : getFields())
         {
+            String key = field.getKey();
+            if (field == getIDField())
+            {
+                key = Key.MONGO_ID;
+            }
             Object value = data.get(field);
             Object transformed = CodecRegistry.encode(field, value);
             if (null != transformed)
             {
-                ret.append(field.getKey(), transformed);
+                ret.append(key, transformed);
             }
         }
         return ret;
     }
     
-    public M parse(Document doc)
+    public void populate(Document doc)
     {
-        M res = this.constructor.get();
-
         for (Field<M, ?> field : getFields())
         {
-            if (!doc.containsKey(field.getKey()))
+            String key = field.getKey();
+            if (field == getIDField())
+            {
+                key = Key.MONGO_ID;
+            }
+
+            if (!doc.containsKey(key))
             {
                 continue;
             }
             
-            Object value = doc.get(field.getKey());
+            
+            Object value = doc.get(key);
             data.put(field, CodecRegistry.decode(field, value));
         }
-        
-        return res;
     }
     
 
