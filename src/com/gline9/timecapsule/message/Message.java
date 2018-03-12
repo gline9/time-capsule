@@ -1,29 +1,45 @@
 package com.gline9.timecapsule.message;
 
 import java.time.Instant;
-import java.util.Set;
 
 import org.bson.types.ObjectId;
 
-import com.gline9.timecapsule.models.Field;
-import com.gline9.timecapsule.models.Key;
-import com.gline9.timecapsule.models.Model;
+import com.gline9.timecapsule.database.Repository;
+import com.gline9.timecapsule.models.Modelable;
 
-public class Message extends Model<Message>
+public class Message implements Modelable<MessageModel>
 {
+    private final MessageModel model;
+    public static final Repository<MessageModel, Message> REPO = new Repository<>("messages", Message::new, MessageModel::new);
 
-    public static final Field<Message, ObjectId> ID = new Field<>(ObjectId.class, Key.ID);
-    public static final Field<Message, String> MESSAGE = new Field<>(String.class, Key.MESSAGE);
-    public static final Field<Message, Instant> CREATED_TIME = new Field<>(Instant.class, Key.CREATED_TIME);
-
-    public Set<Field<Message, ?>> getFields()
+    private Message(String message)
     {
-        return Set.of(ID, MESSAGE, CREATED_TIME);
+        model = new MessageModel();
+        model.set(MessageModel.MESSAGE, message);
+        model.set(MessageModel.CREATED_TIME, Instant.now());
+        model.set(MessageModel.ID, new ObjectId());
     }
-
-    @Override
-    public Field<Message, ?> getIDField()
+    
+    private Message(MessageModel model)
     {
-        return ID;
+        this.model = model;
     }
+    
+    public static Message insertNewMessage(String message)
+    {
+        Message newMessage = new Message(message);
+        REPO.insert(newMessage);
+        return newMessage;
+    }
+    
+    public MessageModel getModel()
+    {
+        return model;
+    }
+    
+    public String getMessage()
+    {
+        return model.get(MessageModel.MESSAGE);
+    }
+    
 }

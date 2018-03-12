@@ -1,21 +1,25 @@
 package com.gline9.timecapsule.database;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.bson.Document;
 
 import com.gline9.timecapsule.models.Model;
+import com.gline9.timecapsule.models.Modelable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.UpdateOptions;
 
-public class Collection<M extends Model<M>>
+public class Repository<T extends Model<T>, M extends Modelable<T>>
 {
     private final String collectionName;
-    private final Supplier<M> constructor;
-    public Collection(String name, Supplier<M> constructor)
+    private final Function<T, M> constructor;
+    private final Supplier<T> supplier;
+    public Repository(String name, Function<T, M> constructor, Supplier<T> supplier)
     {
         collectionName = name;
         this.constructor = constructor;
+        this.supplier = supplier;
     }
 
     
@@ -32,17 +36,17 @@ public class Collection<M extends Model<M>>
     
     public void insert(M value)
     {
-        get().insertOne(value.toDocument());
+        get().insertOne(value.getModel().toDocument());
     }
     
     public M find(M value)
     {
-        return safeParse(get().find(value.toMatchDocument()).first());
+        return safeParse(get().find(value.getModel().toMatchDocument()).first());
     }
     
     public void delete(M value)
     {
-        get().deleteOne(value.toMatchDocument());
+        get().deleteOne(value.getModel().toMatchDocument());
     }
     
     public void update(M value)
@@ -57,7 +61,7 @@ public class Collection<M extends Model<M>>
     
     public void update(M value, boolean upsert)
     {
-        get().updateOne(value.toMatchDocument(), value.toUpdateDocument(), new UpdateOptions().upsert(upsert));
+        get().updateOne(value.getModel().toMatchDocument(), value.getModel().toUpdateDocument(), new UpdateOptions().upsert(upsert));
     }
     
     public M safeParse(Document doc)
@@ -66,9 +70,9 @@ public class Collection<M extends Model<M>>
         {
             return null;
         }
-        M ret = constructor.get();
-        ret.populate(doc);
-        return ret;
+        T val = supplier.get();
+        val.populate(doc);
+        return constructor.apply(val);
     }
     
     
