@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.gline9.timecapsule.gui.App"
+	spacing="10">
+	<TextField fx:id="textField">
+	</TextField>
+	<Button text="Test" onAction="#createMessage">
+	</Button>
+</VBox>
+
