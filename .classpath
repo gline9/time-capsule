@@ -10,5 +10,12 @@
 	<classpathentry kind="lib" path="dependencies/mongodb-driver-core-3.6.3.jar"/>
 	<classpathentry kind="lib" path="dependencies/slf4j-api-1.7.6.jar"/>
 	<classpathentry kind="lib" path="dependencies/mongodb-driver-3.6.3.jar"/>
+	<classpathentry kind="lib" path="dependencies/antlr-runtime-3.5.2.jar"/>
+	<classpathentry kind="lib" path="dependencies/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="dependencies/commons-io-2.3.jar"/>
+	<classpathentry kind="lib" path="dependencies/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="dependencies/gson-2.5.jar"/>
+	<classpathentry kind="lib" path="dependencies/less4j-1.17.2.jar"/>
+	<classpathentry kind="lib" path="dependencies/protobuf-java-2.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
