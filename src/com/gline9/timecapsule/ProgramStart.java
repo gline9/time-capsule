@@ -14,6 +14,7 @@ public class ProgramStart extends Application
     public static void main(String[] args)
     {
         Handler.registerStyleSheet("src/com/gline9/timecapsule/gui/App.less");
+        Handler.registerStyleSheet("src/com/gline9/timecapsule/gui/core/styles/styles.less");
         launch(args);
     }
 
@@ -24,6 +25,7 @@ public class ProgramStart extends Application
         
         Scene scene = new Scene(root, 300, 300);
         scene.getStylesheets().add("less:src/com/gline9/timecapsule/gui/App.less");
+        scene.getStylesheets().add("less:src/com/gline9/timecapsule/gui/core/styles/styles.less");
         
         stage.setTitle("Time Capsule");
         stage.setScene(scene);

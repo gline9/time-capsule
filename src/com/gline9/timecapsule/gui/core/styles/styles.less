@@ -1,0 +1,34 @@
+@import "variables";
+@import "mixins";
+
+.rootPane {
+    -fx-border-color: @foreground-color;
+}
+
+.root {
+    -fx-background-color: @background-color;
+
+    * {
+        -fx-text-fill: @text-color;
+        -fx-background-color: @foreground-color;
+    }
+}
+
+@border-radius: 5px;
+
+.button, .text-field {
+    -fx-border-radius: @border-radius;
+    -fx-background-radius: @border-radius;
+}
+
+.positive {
+    .button-color(@positive-color);
+}
+
+.negative {
+    .button-color(@negative-color);
+}
+
+.warning {
+    .button-color(@warning-color);
+}

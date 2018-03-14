@@ -1,0 +1,8 @@
+.button-color(@color) {
+    -fx-background-color: @color;
+    -fx-border-color: darken(@color, 30%);
+
+    &:pressed {
+        -fx-background-color: darken(@color, 30%);
+    }
+}

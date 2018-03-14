@@ -2,14 +2,21 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="com.gline9.timecapsule.gui.App"
 	spacing="10">
-	<TextField fx:id="textField">
-	</TextField>
-	<Button text="Test" onAction="#createMessage">
-	</Button>
+	<padding>
+		<Insets top="10" left="10" right="10" bottom="10"/>
+	</padding>
+
+	<TextField fx:id="textField" />
+
+	<Button
+		text="Test"
+		onAction="#createMessage"
+		styleClass="positive" />
 </VBox>
 

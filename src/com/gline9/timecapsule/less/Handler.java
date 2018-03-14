@@ -31,6 +31,7 @@ public class Handler extends URLStreamHandler
         try
         {
             contents = new DefaultLessCompiler().compile(new File(path)).getCss();
+            System.out.println(contents);
         } catch (Less4jException e)
         {
             throw new IllegalStateException("Invalid syntax", e);
