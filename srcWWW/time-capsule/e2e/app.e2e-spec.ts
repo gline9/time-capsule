@@ -7,8 +7,16 @@ describe('time-capsule App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should have empty input box', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getInputText()).toEqual('');
+  });
+
+  it('should display alert message', () => {
+    page.navigateTo();
+    const message = 'test';
+    page.enterInputText(message);
+    page.clickSubmitButton();
+    expect(page.getAlertText()).toEqual(message);
   });
 });
