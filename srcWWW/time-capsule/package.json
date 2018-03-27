@@ -12,8 +12,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-mdc/theme": "^0.32.1",
-    "@angular-mdc/web": "^0.32.2",
     "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
@@ -28,6 +26,8 @@
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
+    "@angular-mdc/theme": "^0.32.1",
+    "@angular-mdc/web": "^0.32.2",
     "@angular/cli": "~1.7.3",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
