@@ -18,8 +18,9 @@ export class AppComponent {
         this._message = value;
     }
 
-    public sendAlert(message: string)
+    public sendAlert()
     {
-        alert(message);
+        alert(this.message);
+        this.message = '';
     }
 }

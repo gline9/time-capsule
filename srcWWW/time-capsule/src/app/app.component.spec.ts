@@ -1,27 +1,26 @@
 import { AppModule } from './app.module';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         AppModule
       ]
     }).compileComponents();
+    fixture = TestBed.createComponent(AppComponent)
   }));
   it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
   it(`should start with an empty message`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const app = fixture.debugElement.componentInstance;
     expect(app.message).toEqual('');
   }));
   it('should allow input', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     const app = fixture.debugElement.componentInstance;
@@ -34,5 +33,12 @@ describe('AppComponent', () => {
         expect(compiled.querySelector('input').value).toContain(message);
       }
     );
+  }));
+  it('should clean input on submition', async(() => {
+    const app: AppComponent = fixture.debugElement.componentInstance;
+    const message = 'test';
+    app.message = message;
+    app.sendAlert();
+    expect(app.message).toEqual('');
   }));
 });

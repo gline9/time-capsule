@@ -1,3 +1,11 @@
-<mdc-text-field [(ngModel)]="message">
+<mdc-text-field
+    [(ngModel)]="message"
+    label="Message">
 </mdc-text-field>
-<button mdc-button (click)="sendAlert(message)">Submit</button>
+<button
+    mdc-button
+    (click)="sendAlert()"
+    [secondary]="true">
+
+    Submit
+</button>

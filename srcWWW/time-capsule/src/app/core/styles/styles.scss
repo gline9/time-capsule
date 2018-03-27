@@ -1,0 +1,11 @@
+@import "variables";
+
+$mdc-theme-primary: $primary-color;
+$mdc-theme-secondary: $accent-color;
+$mdc-theme-background: $background-color;
+
+@import "node_modules/@angular-mdc/theme/material";
+
+body {
+    background-color: $background-color;
+}
